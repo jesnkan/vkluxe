@@ -29,91 +29,94 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     console.log('setSession: checking roles for', user?.email, 'ID:', user?.id);
 
-    if (user) {
-      // 1. Check if email matches admin email from env (case-insensitive)
-      const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
-      if (adminEmail && user.email?.toLowerCase() === adminEmail.toLowerCase().trim()) {
-        console.log('Admin match: Env Email');
-        isAdmin = true;
-      }
-
-      // 2. Check user metadata for role (case-insensitive)
-      if (!isAdmin && user.user_metadata?.role?.toLowerCase() === 'admin') {
-        console.log('Admin match: User Metadata');
-        isAdmin = true;
-      }
-
-      // 3. Check user_roles table
-      if (!isAdmin) {
-        try {
-          const { data, error } = await supabase
-            .from('user_roles')
-            .select('role')
-            .eq('user_id', user.id)
-            .maybeSingle();
-
-          if (!error && data?.role?.toLowerCase() === 'admin') {
-            console.log('Admin match: user_roles table');
-            isAdmin = true;
-          }
-        } catch (e) {
-          console.error('user_roles query failed:', e);
+    try {
+      if (user) {
+        // 1. Check if email matches admin email from env (case-insensitive)
+        const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
+        if (adminEmail && user.email?.toLowerCase() === adminEmail.toLowerCase().trim()) {
+          console.log('Admin match: Env Email');
+          isAdmin = true;
         }
-      }
 
-      // 4. Fallback: Check profiles table (common pattern)
-      if (!isAdmin) {
-        try {
-          const { data, error } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .maybeSingle();
-
-          if (!error && data?.role?.toLowerCase() === 'admin') {
-            console.log('Admin match: profiles table');
-            isAdmin = true;
-          }
-        } catch (e) {
-          // profiles table might not exist, that's fine
+        // 2. Check user metadata for role (case-insensitive)
+        if (!isAdmin && user.user_metadata?.role?.toLowerCase() === 'admin') {
+          console.log('Admin match: User Metadata');
+          isAdmin = true;
         }
-      }
-      
-      // 5. Ultimate Fallback for the specified default admin email
-      if (!isAdmin && user.email?.toLowerCase() === 'admin@vkluxe.com') {
-        console.log('Admin match: Default Admin Email');
-        isAdmin = true;
-      }
 
-      // 6. Ensure user has a role record if they don't (Client Auto-Provision)
-      if (!isAdmin && session) {
-        try {
-          const { data: roleData } = await supabase
-            .from('user_roles')
-            .select('role')
-            .eq('user_id', user.id)
-            .maybeSingle();
-          
-          if (!roleData) {
-            console.log('Auto-provisioning client role for user');
-            await supabase
+        // 3. Check user_roles table
+        if (!isAdmin) {
+          try {
+            const { data, error } = await supabase
               .from('user_roles')
-              .upsert([{ user_id: user.id, role: 'client' }], { onConflict: 'user_id' });
+              .select('role')
+              .eq('user_id', user.id)
+              .maybeSingle();
+
+            if (!error && data?.role?.toLowerCase() === 'admin') {
+              console.log('Admin match: user_roles table');
+              isAdmin = true;
+            }
+          } catch (e) {
+            console.error('user_roles query failed:', e);
           }
-        } catch (e) {
-          console.warn('Silent role provision failed:', e);
+        }
+
+        // 4. Fallback: Check profiles table (common pattern)
+        if (!isAdmin) {
+          try {
+            const { data, error } = await supabase
+              .from('profiles')
+              .select('role')
+              .eq('id', user.id)
+              .maybeSingle();
+
+            if (!error && data?.role?.toLowerCase() === 'admin') {
+              console.log('Admin match: profiles table');
+              isAdmin = true;
+            }
+          } catch (e) {
+            // profiles table might not exist
+          }
+        }
+        
+        // 5. Ultimate Fallback for the specified default admin email
+        if (!isAdmin && user.email?.toLowerCase() === 'admin@vkluxe.com') {
+          console.log('Admin match: Default Admin Email');
+          isAdmin = true;
+        }
+
+        // 6. Ensure user has a role record if they don't (Client Auto-Provision)
+        if (!isAdmin && session) {
+          try {
+            const { data: roleData } = await supabase
+              .from('user_roles')
+              .select('role')
+              .eq('user_id', user.id)
+              .maybeSingle();
+            
+            if (!roleData) {
+              console.log('Auto-provisioning client role for user');
+              await supabase
+                .from('user_roles')
+                .upsert([{ user_id: user.id, role: 'client' }], { onConflict: 'user_id' });
+            }
+          } catch (e) {
+            console.warn('Silent role provision failed:', e);
+          }
         }
       }
+    } catch (criticalError) {
+      console.error('Critical auth sequence error:', criticalError);
+    } finally {
+      console.log('Final Auth State:', { hasSession: !!session, isAdmin });
+      set({ 
+        session, 
+        user,
+        isAdmin,
+        isLoading: false 
+      });
     }
-
-    console.log('Final Auth State:', { hasSession: !!session, isAdmin });
-
-    set({ 
-      session, 
-      user,
-      isAdmin,
-      isLoading: false 
-    });
   },
 
   signOut: async () => {
