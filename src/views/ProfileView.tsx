@@ -93,7 +93,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ onNavigate }) => {
     );
   }
 
-  if (!session) {
+  if (!session || !user) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -232,7 +232,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ onNavigate }) => {
     );
   }
 
-  if (!session) {
+  if (!session || !user) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 10 }}

@@ -124,8 +124,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     } catch (err) {
       console.error('authStore: Supabase signOut error:', err);
     } finally {
-      console.log('authStore: Clearing local session state');
+      console.log('authStore: Clearing local session state and redirecting');
       set({ session: null, user: null, isAdmin: false });
+      // Force redirect to home to clear any restricted views
+      window.location.href = '/';
     }
   },
 
