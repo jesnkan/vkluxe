@@ -1,0 +1,117 @@
+@import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-gold-50: #fffcf0;
+  --color-gold-100: #fff9db;
+  --color-gold-200: #fff1b8;
+  --color-gold-300: #ffe38a;
+  --color-gold-400: #ffcf52;
+  --color-gold-500: #d4af37;
+  --color-gold-600: #b8860b;
+  --color-gold-700: #946b00;
+  --color-gold-800: #7a5800;
+  --color-gold-900: #664a00;
+  --color-gold-950: #422006;
+  
+  --color-luxury-pink: #fb7185;
+  --color-luxury-gold: #d4af37;
+  --color-luxury-black: #0a0a0a;
+}
+
+@layer utilities {
+  .text-gradient-luxury {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-luxury-gold via-luxury-pink to-luxury-gold;
+    background-size: 200% auto;
+    animation: textShimmer 4s linear infinite;
+  }
+
+  .bg-mesh {
+    @apply transition-colors duration-700;
+    background-color: #f9fafb; /* gray-50 */
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(212, 175, 55, 0.08) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(251, 113, 133, 0.08) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(212, 175, 55, 0.03) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  .dark .bg-mesh {
+    background-color: #0a0a0a;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(212, 175, 55, 0.1) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(251, 113, 133, 0.1) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(212, 175, 55, 0.05) 0px, transparent 50%);
+  }
+
+  .luxury-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .luxury-shimmer::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 45%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 55%
+    );
+    animation: shimmer 3s infinite;
+  }
+
+  .glass-card {
+    @apply bg-white/70 dark:bg-white/5 backdrop-blur-2xl border border-gray-200 dark:border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.37)];
+  }
+
+  .border-gradient {
+    position: relative;
+    border: 1px solid transparent;
+    background-clip: padding-box;
+  }
+
+  .border-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    z-index: -1;
+    margin: -1px;
+    border-radius: inherit;
+    background: linear-gradient(to right, #d4af37, #fb7185);
+  }
+
+  @keyframes textShimmer {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%); }
+    100% { transform: translateX(100%) translateY(100%); }
+  }
+}
+
+@layer base {
+  *, ::before, ::after {
+    @apply transition-colors duration-500 ease-in-out;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
