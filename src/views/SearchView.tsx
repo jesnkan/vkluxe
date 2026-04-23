@@ -23,7 +23,7 @@ export const SearchView: React.FC<SearchViewProps> = ({ onNavigate }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
-      className="px-4 sm:px-6 mt-8 lg:px-12 max-w-7xl mx-auto min-h-[80vh]"
+      className="px-4 sm:px-6 mt-8 lg:px-12 max-w-7xl mx-auto min-h-[80dvh]"
       role="main"
       aria-label="Search"
     >

@@ -13,7 +13,7 @@ export const CheckoutSuccessView: React.FC<CheckoutSuccessViewProps> = ({ onNavi
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-[85vh] flex items-center justify-center px-6 py-20"
+      className="min-h-[85dvh] flex items-center justify-center px-6 py-20"
     >
       <motion.div
         initial={{ scale: 0.9, opacity: 0, y: 30 }}

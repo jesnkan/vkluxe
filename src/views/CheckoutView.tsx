@@ -321,7 +321,7 @@ export const CheckoutView: React.FC<CheckoutViewProps> = ({ onNavigate }) => {
                 Summary
               </h3>
 
-              <div className="max-h-[30vh] overflow-y-auto pr-2 scrollbar-hide space-y-4 mb-8">
+              <div className="max-h-[30dvh] overflow-y-auto pr-2 scrollbar-hide space-y-4 mb-8">
                 {cart.map((item) => (
                   <div key={`${item.id}-${item.selectedColor}`} className="flex items-center gap-4 group">
                     <div className="w-16 h-16 rounded-xl overflow-hidden bg-gray-50 dark:bg-zinc-800 border border-gray-100 dark:border-white/5 shrink-0">

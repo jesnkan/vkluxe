@@ -63,7 +63,7 @@ export const ProductDetailsView: React.FC<ProductDetailsViewProps> = ({ onNaviga
 
   if (!selectedProduct) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center">
+      <div className="min-h-[80dvh] flex items-center justify-center">
         <button
           onClick={() => onNavigate('home')}
           className="px-8 py-4 bg-luxury-gold text-black rounded-xl font-black"

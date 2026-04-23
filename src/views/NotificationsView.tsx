@@ -41,7 +41,7 @@ export const NotificationsView: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
-      className="px-5 pt-10 pb-40 lg:px-12 max-w-4xl mx-auto min-h-[80vh]"
+      className="px-5 pt-10 pb-40 lg:px-12 max-w-4xl mx-auto min-h-[80dvh]"
     >
       <div className="flex items-center justify-between mb-10">
         <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tighter">

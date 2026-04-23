@@ -102,7 +102,7 @@ export const AdminView: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
-      className="px-5 pt-10 pb-40 lg:px-12 max-w-7xl mx-auto min-h-[80vh]"
+      className="px-5 pt-10 pb-40 lg:px-12 max-w-7xl mx-auto min-h-[80dvh]"
     >
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
         <div>

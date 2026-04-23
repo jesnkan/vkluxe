@@ -87,7 +87,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ onNavigate }) => {
 
   if (authLoading) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center">
+      <div className="min-h-[80dvh] flex items-center justify-center">
         <div className="w-12 h-12 border-4 border-luxury-gold/20 border-t-luxury-gold rounded-full animate-spin" />
       </div>
     );

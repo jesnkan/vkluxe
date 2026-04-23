@@ -62,7 +62,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0a] text-gray-900 dark:text-zinc-50 font-sans selection:bg-luxury-pink/30 relative overflow-x-hidden">
+    <div className="min-h-dvh bg-gray-50 dark:bg-[#0a0a0a] text-gray-900 dark:text-zinc-50 font-sans selection:bg-luxury-pink/30 relative overflow-x-hidden">
       {/* Dynamic Background */}
       <div className="fixed inset-0 bg-mesh opacity-40 dark:opacity-100 pointer-events-none z-0"></div>
       
@@ -72,7 +72,7 @@ export default function App() {
           onNavigate={navigateTo} 
         />
         
-        <main className="min-h-[calc(100vh-80px)]">
+        <main className="min-h-[calc(100dvh-80px)]">
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
               <Route path="/" element={<HomeView onNavigate={navigateTo} onSearchFocus={() => navigateTo('search')} />} />

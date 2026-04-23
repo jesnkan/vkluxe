@@ -93,7 +93,7 @@ export const ConciergeView: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
-      className="flex flex-col h-[calc(100vh-140px)] sm:h-[calc(100vh-100px)] lg:px-12 max-w-4xl mx-auto overflow-hidden"
+      className="flex flex-col h-[calc(100dvh-140px)] sm:h-[calc(100dvh-100px)] lg:px-12 max-w-4xl mx-auto overflow-hidden"
     >
       <div className="flex-1 overflow-y-auto px-4 py-8 space-y-6 scrollbar-hide">
         {messages.map((msg, idx) => (
