@@ -1,19 +1,20 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Robust environment variable extraction
-const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '').trim();
-const supabaseAnonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '').trim();
+// Robust environment variable extraction with cleaning
+const rawUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const rawKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
-// Debugging for Vercel
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('VK Luxe Security: Supabase Identity Missing. Check Vercel Environment Variables.');
-}
+// Clean the URL (remove trailing slashes and whitespace)
+const supabaseUrl = rawUrl.trim().replace(/\/$/, '');
+const supabaseAnonKey = rawKey.trim();
 
-// Ensure createClient never receives an empty string which causes a crash
-const validUrl = supabaseUrl && supabaseUrl.startsWith('http') 
-  ? supabaseUrl 
-  : 'https://placeholder.supabase.co';
+// Detailed Debugging for the console
+if (!supabaseUrl) console.error('VK Luxe Security: VITE_SUPABASE_URL is MISSING');
+if (!supabaseAnonKey) console.error('VK Luxe Security: VITE_SUPABASE_ANON_KEY is MISSING');
 
-const validKey = supabaseAnonKey || 'placeholder';
+// Ensure createClient never receives an invalid URL which causes "Failed to Fetch"
+const isUrlValid = supabaseUrl.startsWith('https://');
+const finalUrl = isUrlValid ? supabaseUrl : 'https://missing-identity.vkluxe.com';
+const finalKey = supabaseAnonKey || 'missing-key';
 
-export const supabase = createClient(validUrl, validKey);
+export const supabase = createClient(finalUrl, finalKey);

@@ -75,7 +75,11 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ onNavigate }) => {
       }
     } catch (err: any) {
       console.error('Auth sequence failure:', err);
-      setError(err.message || 'An unexpected authentication error occurred.');
+      let userFriendlyMsg = err.message || 'An unexpected authentication error occurred.';
+      if (userFriendlyMsg.includes('Failed to fetch')) {
+        userFriendlyMsg = 'Atelier Connection Failure: Our security servers are currently unreachable. Please ensure your identity variables (VITE_SUPABASE_URL) are correctly configured in Vercel.';
+      }
+      setError(userFriendlyMsg);
     } finally {
       setLoading(false);
     }
