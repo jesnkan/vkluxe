@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Package, Heart, MapPin, CreditCard, Settings, LogOut, Mail, Lock, User, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Package, Heart, MapPin, CreditCard, Settings, LogOut, Mail, Lock, User, ArrowRight, ShieldCheck, Plus } from 'lucide-react';
 import { useAuthStore } from '../stores/authStore';
 import { useUserStore } from '../stores/userStore';
 import { supabase } from '../lib/supabase';
