@@ -1,11 +1,19 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+// Robust environment variable extraction
+const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '').trim();
+const supabaseAnonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '').trim();
 
+// Debugging for Vercel
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('CRITICAL ERROR: Supabase environment variables are missing in Vercel settings.');
+  console.error('VK Luxe Security: Supabase Identity Missing. Check Vercel Environment Variables.');
 }
 
-// Fallback to empty strings to prevent createClient from throwing immediately
-export const supabase = createClient(supabaseUrl || 'https://placeholder.supabase.co', supabaseAnonKey || 'placeholder');
+// Ensure createClient never receives an empty string which causes a crash
+const validUrl = supabaseUrl && supabaseUrl.startsWith('http') 
+  ? supabaseUrl 
+  : 'https://placeholder.supabase.co';
+
+const validKey = supabaseAnonKey || 'placeholder';
+
+export const supabase = createClient(validUrl, validKey);
